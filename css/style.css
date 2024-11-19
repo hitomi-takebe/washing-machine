@@ -1,0 +1,96 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css?family=Sacramento');
+
+body{
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    background: #EEEEEE;
+    line-height:1.3
+}
+
+.header {
+    font-style: italic;
+    letter-spacing: .1em;
+    color: #658864;
+    text-shadow:-4px 3px 0 #fff;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.header p{
+    font-size: 3em;
+    margin: 30px;
+    margin-bottom: 50px;
+    position: relative;
+    padding: 1.5rem 2rem;
+    border-bottom: 3px solid #DDDDDD;
+    border-left: 3px solid #DDDDDD;
+    border-radius: 0 0 0 50px;
+}
+
+.header p:before {
+    position: absolute;
+    right: 50px;
+    bottom: -21px;
+    width: 0;
+    height: 0;
+    content: '';
+    border-width: 21px 21px 0 0;
+    border-style: solid;
+    border-color: #DDDDDD transparent transparent transparent;
+}
+
+.header p:after {
+    position: absolute;
+    right: 54px;
+    bottom: -14px;
+    width: 0;
+    height: 0;
+    content: '';
+    border-width: 14px 14px 0 0;
+    border-style: solid;
+    border-color: #EEEEEE transparent transparent transparent;
+}
+
+h1 {
+    position: relative;
+    text-align: center;
+    display: inline-block;
+    padding: 0.3rem;
+    min-width: 8%;
+    /* border-radius: 5px; */
+    border: 5px solid #658864;
+    background-color: #658864;
+    background-image:
+        linear-gradient(#658864 0 100%),
+        repeating-linear-gradient(135deg, #fff 0 5px, transparent 5px 10px);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: calc(100% - 5px) calc(100% - 5px), 100%;
+    color: #fff;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 0.7em;
+    /* font-family: "Kokoro"; */
+}
+
+/* タイトルと注記までのマージンを縮小 */
+.inputCheck h1,.notice h1 {
+    margin-bottom: 0.2em;
+}
+
+.green_note {
+    font-size: 0.5em;
+    color: #658864;
+    margin-bottom: 2em;
+}
+
+/* お知らせ文 */
+.notice h2 {
+    margin-top: 1em;
+    font-size: 2em;
+    color: #658864;
+}
