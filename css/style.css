@@ -53,44 +53,63 @@ body{
     border-color: #EEEEEE transparent transparent transparent;
 }
 
-h1 {
+.wrap{
     position: relative;
-    text-align: center;
+    display: flex;
+    justify-content: space-around;
+}
+
+.wrap a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+.image{
+    position: relative;
+    /* 子要素を重ねるための設定 */
     display: inline-block;
-    padding: 0.3rem;
-    min-width: 8%;
-    /* border-radius: 5px; */
-    border: 5px solid #658864;
-    background-color: #658864;
-    background-image:
-        linear-gradient(#658864 0 100%),
-        repeating-linear-gradient(135deg, #fff 0 5px, transparent 5px 10px);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: calc(100% - 5px) calc(100% - 5px), 100%;
-    color: #fff;
-    font-size: 1em;
+    /* 必要に応じて適用 */
+    margin: 0;
+}
+
+.image h2{
+    position: absolute;
+    /* 画像の上に重ねる */
+    top: 50%;
+    /* 上からの位置を調整 */
+    left: 48%;
+    /* 左からの位置を調整 */
+    transform: translate(-50%, -50%);
+    /* 完全に中央に配置 */
+    color: black;
+    /* 文字色を白に変更 */
+    font-size: 24px;
+    /* 文字サイズを調整 */
     font-weight: bold;
-    text-align: center;
-    margin-top: 1em;
-    margin-bottom: 0.7em;
-    /* font-family: "Kokoro"; */
+    /* 太字 */
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+    /* 見やすくするための影 */
+    z-index: 1;
+    /* 画像より前面に表示 */
 }
 
-/* タイトルと注記までのマージンを縮小 */
-.inputCheck h1,.notice h1 {
-    margin-bottom: 0.2em;
+.image img{
+    display: block;
+    /* 必要に応じて適用 */
+    width: 30%;
+    /* サイズ調整 */
+    height: auto;
+    /* サイズ調整 */
+    margin: 0 auto;
 }
 
-.green_note {
-    font-size: 0.5em;
-    color: #658864;
-    margin-bottom: 2em;
+.text{
+    text-align: left;
 }
 
-/* お知らせ文 */
-.notice h2 {
-    margin-top: 1em;
-    font-size: 2em;
-    color: #658864;
+#onOrOff{
+    font-weight: bold;
+        /* 太字 */
 }
