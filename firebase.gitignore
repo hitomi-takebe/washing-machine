@@ -1,27 +1,6 @@
-# Node.js関連の一般的な無視ファイル
+# Node.js関連
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+dist/
 
-# Firebase関連
-firebase-debug.log
-.firebase/
-.firebaserc.local
-
-# 環境変数やAPIキーが含まれる可能性のあるファイル
-.env
-.env.local
-.env.*.local
-
-# Firebase CLIが生成するファイル（ビルド出力）
-/public/
-# または
-# build/  # ReactやVueを使う場合のビルドディレクトリ
-
-# サービスアカウントキー（絶対に公開しない）
-service-account-key.json
-
-# その他OS固有のファイル
-.DS_Store
-Thumbs.db
+# Firebase設定ファイル
+config/firebaseConfig.js
