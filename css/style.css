@@ -6,7 +6,8 @@ body{
     margin: 0 auto;
     width: 100%;
     background: #EEEEEE;
-    line-height:1.3
+    line-height:1.3;
+    width:100%;
 }
 
 .header {
@@ -54,9 +55,46 @@ body{
 }
 
 .wrap{
+    margin: 0 Auto;
+    width: 40%;
     position: relative;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    background: linear-gradient(135deg, #00c9a7, #0089ba);
+    /* 緑から青へのグラデーション */
+    color: white;
+    /* テキストの色 */
+    font-size: 16px;
+    /* フォントサイズ */
+    font-weight: bold;
+    /* 太字 */
+    padding: 12px 24px;
+    /* 内側の余白 */
+    border: none;
+    /* 枠線なし */
+    border-radius: 25px;
+    /* ボタンを丸くする */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* 柔らかな影 */
+    cursor: pointer;
+    /* ホバー時にポインターを表示 */
+    transition: all 0.3s ease;
+    /* アニメーションをスムーズに */
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.wrap:hover {
+    transform: scale(1.05);
+}
+
+.gradient-button:hover {
+    background: linear-gradient(135deg, #00e1c5, #00a3d9);
+    /* ホバー時の色を少し明るく */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    /* ホバー時の影を大きく */
+    transform: translateY(-2px);
+    /* ホバー時に少し浮かせる */
 }
 
 .wrap a {
