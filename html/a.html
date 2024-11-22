@@ -41,9 +41,10 @@
             // Your web app's Firebase configuration firebaseのプロジェクトの設定からコピーした内容を下記に貼り付け！
     const firebaseConfig = {
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        // ここは消す
 
+    }
 
-        
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const dbRef = ref(db, "chat");
@@ -87,6 +88,10 @@
         let data = new Date();
             console.log(d.getTime()) // 1614085014353
     </script>
+
+    <script src="/js/a.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/jquery-datetimepicker@2.5.20/build/jquery.datetimepicker.full.min.js"></script>
 </body>
 
 </html>
