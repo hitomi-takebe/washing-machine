@@ -17,6 +17,9 @@
     <div>
         <!-- 各場所にidを設定しましょう -->
         <div>
+            <input type="data" id="data">
+        </div>
+        <div>
             <input type="text" id="uname" placeholder="名前を入力してください">
         </div>
         <div>
@@ -34,23 +37,13 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
     import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved }
             from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
-
             // import { firebaseConfig } from "/config/firebaseConfig.js";
             // Your web app's Firebase configuration firebaseのプロジェクトの設定からコピーした内容を下記に貼り付け！
-            const firebaseConfig = {
-                // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-                apiKey: "AIzaSyAzgo4GGX8YmFoFDoFO1oa8rSEltSJWs0I",
-                authDomain: "dev28-27322.firebaseapp.com",
-                databaseURL: "https://dev28-27322-default-rtdb.firebaseio.com",
-                projectId: "dev28-27322",
-                storageBucket: "dev28-27322.firebasestorage.app",
-                messagingSenderId: "47494104071",
-                appId: "1:47494104071:web:33edcdd84cbbf9963fd6a2",
-                measurementId: "G-NTE1SBFX7R"}
+    const firebaseConfig = {
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 
-
-
+        
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const dbRef = ref(db, "chat");
@@ -61,12 +54,14 @@
         $("#send").on("click", function () {
             console.log("ボタン確かめ");
             const msg = {
+                data: $("#data").val(),
                 uname: $("#uname").val(),
                 text: $("#text").val(),
             }
             const newPostRef = push(dbRef); //ユニークKEYを生成
             set(newPostRef, msg);           //"chat"にユニークKEYをつけてオブジェクトデータを登録
             // firebaseに登録が終わったら、入力欄を空欄にします。
+            $("#data").val(""),
             $("#uname").val("");
             $("#text").val("");
         });
@@ -78,6 +73,7 @@
 
             let h = `
                 <div>
+                <p>${msg.data}</p>   
                 <p>${msg.uname}</p>
                 <p>${msg.text}</p>
                 </div>
@@ -87,6 +83,9 @@
 
             // この下消さない
         });
+        // 日付取得機能
+        let data = new Date();
+            console.log(d.getTime()) // 1614085014353
     </script>
 </body>
 
