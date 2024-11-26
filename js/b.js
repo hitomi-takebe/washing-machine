@@ -13,7 +13,14 @@ import {
 // Firebaseの設定情報（Firebaseプロジェクトから取得）
 const firebaseConfig = {
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
+    apiKey: "AIzaSyAzgo4GGX8YmFoFDoFO1oa8rSEltSJWs0I",
+    authDomain: "dev28-27322.firebaseapp.com",
+    databaseURL: "https://dev28-27322-default-rtdb.firebaseio.com",
+    projectId: "dev28-27322",
+    storageBucket: "dev28-27322.firebasestorage.app",
+    messagingSenderId: "47494104071",
+    appId: "1:47494104071:web:33edcdd84cbbf9963fd6a2",
+    measurementId: "G-NTE1SBFX7R"
 };
 
 // Firebase初期化
@@ -22,6 +29,7 @@ const db = getDatabase(app);
 const dbRef = ref(db, "chat");
 
 // メッセージをタイムスタンプ順に取得するクエリ
+// 最新10件を取得するクエリ
 const q = query(dbRef, orderByChild("timestamp"));
 
 // ターゲットマシン
@@ -66,5 +74,9 @@ onChildAdded(q, function (data) {
         `;
         // 最新メッセージを先頭に表示
         $("#output").prepend(html);
+        // メッセージが10件を超えた場合、古いメッセージを削除
+        if ($("#output .message").length > 10) {
+            $("#output .message").last().remove();
+        }
     }
 });
