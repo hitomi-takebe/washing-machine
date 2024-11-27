@@ -1,4 +1,4 @@
-
+console.log("データが送信されました");
 // Firebase SDKをインポート
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
 import { 
@@ -40,63 +40,93 @@ console.log("Firebase initialized successfully!");
 
 // データ登録（クリックイベント）
 $("#set").on("click", function () {
-    const msg = {
+    const onOff = {
         machine:$("#targetMachine").val(),
-        time: $("#time").val(),
+        start_time: $("#span1").val(),
         finish_time: $("#finish_time").val(),
     };
-
     // Firebase Realtime Databaseに新しいデータを追加
     const newPostRef = push(dbRef);
-    set(newPostRef, msg);
-
+    set(newPostRef, onOff);
     // 入力欄をリセット
     $("#targetMachine").val("");
     $("#time").val("");
     $("#finish_time").val("");
-    console.log("データが送信されました:", msg);
+    swal.fire({
+    title: "登録しました！",
+    text: "利用情報を登録しました",
+    icon: "success",
+    });
 });
 
-// データ取得（リアルタイムで表示）
-onChildAdded(q, function (data) {
-    const msg = data.val();
+onChildAdded(dbRef, function (snapshot) {
+    const data = snapshot.val();  // 取得したデータ
 
-    // 指定のマシンに一致するデータのみを表示
-    if (msg.machine === targetMachine) {
-        const html = `
-            <div class="message">
-                <p class="uname">${msg.uname} さん</p>
-                <div class="text_box"> 
-                    <p class="text">${msg.machine}についてです。${msg.text}</p>
-                </div>
-                <p class="nowDate">${msg.nowDate}</p> 
+    // 現在時刻を取得
+    const now = new Date().getTime();
+
+    // start_timeとfinish_timeをUNIXタイムスタンプに変換
+    const startTime = new Date(data.start_time).getTime();
+    const finishTime = new Date(data.finish_time).getTime();
+
+    // 現在時刻が start_time と finish_time の間にある場合、利用中と表示
+    if (now >= startTime && now <= finishTime) {
+        $("#output2").append(`
+            <div class="in-use">
+                <p>【${data.machine}】は現在利用中です。</p>
+                <p>開始時間: ${data.start_time}</p>
+                <p>終了予定時間: ${data.finish_time}</p>
             </div>
-        `;
-        // 最新メッセージを先頭に表示
-        $("#output").prepend(html);
-        // メッセージが10件を超えた場合、古いメッセージを削除
-        if ($("#output .message").length > 10) {
-            $("#output .message").last().remove();
-        }
+        `);
+    } else {
+        $("#output2").append(`
+            <div class="available">
+                <p>【${data.machine}】は現在空いています。</p>
+            </div>
+        `);
     }
 });
 
-// ここから今までのデータと一緒
+    
+    // 指定のマシンに一致するデータのみを表示
+//     if (msg.machine === targetMachine) {
+//         const html = `
+//             <div class="message">
+//                 <p class="uname">${msg.uname} さん</p>
+//                 <div class="text_box"> 
+//                     <p class="text">${msg.machine}についてです。${msg.text}</p>
+//                 </div>
+//                 <p class="nowDate">${msg.nowDate}</p> 
+//             </div>
+//         `;
+//         // 最新メッセージを先頭に表示
+//         $("#output").prepend(html);
+//         // メッセージが10件を超えた場合、古いメッセージを削除
+//         if ($("#output .message").length > 10) {
+//             $("#output .message").last().remove();
+//         }
+//     }
+// });
 
+// ここから今までのデータと一緒
 // 現在時刻を表示する関数
-function updateTime() {
-    const date = new Date();
+function formatDate(date){
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
-    $("#time").text(date.toLocaleTimeString()); // HTMLのid="time"の要素に現在時刻を表示
-    return { hour: hours, minute: minutes, second: seconds }; // 時間データをオブジェクトとして返す
+    // yyyy/mm/dd hh:mm:ss の形式でフォーマット
+    const formattedTime = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;// HTMLのid="time"の要素に現在時刻を表示
+    return {time:date ,hour: hours, minute: minutes, second: seconds ,formattedTime:formattedTime}; // 時間データをオブジェクトとして返す
 }
 
-// 集合時間の取得
-$(function () {
-    $("#daytime").datetimepicker(); // datetimepicker 初期化
-});
+function updateTime() {
+    const now = new Date();
+    $("#time").text(formatDate(now).formattedTime);
+    return { now: now }
+}
 
 // グローバル変数として定義
 let PlusTime = null;
@@ -104,12 +134,14 @@ let PlusTime = null;
 // 入力情報の取得と表示
 function finishTime() {
     // テキストボックスの値を取得
-    const MtgTime = $("#daytime").val();
+    const MtgTime = updateTime().now;
+    console.log(MtgTime,"updateTimeのデータを引っ張ってきている")
+    // const  = $("#daytime").val();
     const hours2 = $("#pre_hours").val();
     const minutes2 = $("#pre_mins").val();
 
     // spanタグに値を設定
-    $("#span1").text(MtgTime);
+    $("#span1").text(formatDate(MtgTime).formattedTime);
     $("#span2").text(hours2);
     $("#span3").text(minutes2);
 
@@ -128,7 +160,7 @@ function finishTime() {
 
     // diffの時間を追加
     PlusTime = new Date(MtgTime_new.getTime() + diff);
-    $("#finish_time").text(PlusTime.toLocaleTimeString()); // 結果を表示
+    $("#finish_time").text(formatDate(PlusTime).formattedTime); // 結果を表示
 
     return PlusTime;
 }
