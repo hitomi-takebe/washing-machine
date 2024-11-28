@@ -15,6 +15,7 @@ const firebaseConfig = {
 
 };
 
+
 // Firebase初期化
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
