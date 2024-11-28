@@ -20,7 +20,7 @@
 <body>
     <audio src="/audio/pikooon.mp3" id="play-button"></audio>
     <div class="title">
-        <h1>洗濯機の一覧<span class="title_hosoku"></span></h1>
+        <h1>稼働状況<span class="title_hosoku">※クリックすると各ランドリーごとにチャットができます。</span></h1>
     </div>
 
     <div class="wrap">
@@ -30,8 +30,8 @@
             <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvfx9QffVvFxYPNdvEIHsEH2c3WQtJLogZgkmQdXu0wWNznCwuOVK7rSBZRaXSAcOfaimnU29mMW9GaU_LSrV2eaWK0-1hFIt8U7nVZOJ_L9d6eHBzpcDoos-PlQLm77_nbL3gVG3jIyI/s400/kaden_sentakuki.png">
         </div>
         <div class="text">
-            <h3 id="onOrOff">クリックするとチャットが開きます。</h3>
-            <!-- <p>終了時刻：<span id="finish"></span></p> -->
+            <h3 id="onOrOff">(ここに運転状況が入る)</h3>
+            <p>終了時刻：<span id="finish"></span></p>
         </div>
     </div>
     <div class="wrap">
@@ -42,11 +42,11 @@
                 src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjvfx9QffVvFxYPNdvEIHsEH2c3WQtJLogZgkmQdXu0wWNznCwuOVK7rSBZRaXSAcOfaimnU29mMW9GaU_LSrV2eaWK0-1hFIt8U7nVZOJ_L9d6eHBzpcDoos-PlQLm77_nbL3gVG3jIyI/s400/kaden_sentakuki.png">
         </div>
         <div class="text">
-            <h3 id="onOrOff">クリックするとチャットが開きます。</h3>
-            <!-- <p>終了時刻：<span id="finish"></span></p> -->
+            <h3 id="onOrOff">(ここに運転状況が入る)<span id="output2"></span></h3>
+            <p>終了時刻：<span id="finish"></span></p>
         </div>
     </div>
-<!-- 
+
     <div class="riyou">
         <div class="title">
             <h1>利用入力</h1>
@@ -67,7 +67,7 @@
         <input type="button" id="button1" value="入力">
         <!-- <p id="error_message"></p>  -->
 
-        <!-- <div class="inputTime">
+        <div class="inputTime">
             <h2>入力した値</h2>
             <p>現在時刻（開始時間）：<span id="span1"></span></p>
             <p>ランドリーにかかる時間：<span id="span2"></span>時間<span id="span3"></span>分</p>
@@ -76,7 +76,7 @@
         <h2>ランドリー終了時間</h2>
         <h2><span id="finish_time"></span></h2>
         <input type="button" id="set" value="確定">
-    </div>  -->
+    </div>
     <!-- <h1>カウントダウン（出るまであと何分？）</h1>
     <p><span id="countdown"></span><p> -->
     <!-- <div class="notice">
