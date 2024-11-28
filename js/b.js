@@ -12,7 +12,14 @@ import {
 
 // Firebaseの設定情報（Firebaseプロジェクトから取得）
 const firebaseConfig = {
-
+  apiKey: "AIzaSyAzgo4GGX8YmFoFDoFO1oa8rSEltSJWs0I",
+  authDomain: "dev28-27322.firebaseapp.com",
+  databaseURL: "https://dev28-27322-default-rtdb.firebaseio.com",
+  projectId: "dev28-27322",
+  storageBucket: "dev28-27322.firebasestorage.app",
+  messagingSenderId: "47494104071",
+  appId: "1:47494104071:web:68f6637dcbc396503fd6a2",
+  measurementId: "G-XKN91WVJTR"
 };
 
 
