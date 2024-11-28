@@ -14,7 +14,14 @@ import {
 // Firebaseの設定情報（Firebaseプロジェクトから取得）
 const firebaseConfig = {
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
+    apiKey: "AIzaSyAzgo4GGX8YmFoFDoFO1oa8rSEltSJWs0I",
+    authDomain: "dev28-27322.firebaseapp.com",
+    databaseURL: "https://dev28-27322-default-rtdb.firebaseio.com",
+    projectId: "dev28-27322",
+    storageBucket: "dev28-27322.firebasestorage.app",
+    messagingSenderId: "47494104071",
+    appId: "1:47494104071:web:33edcdd84cbbf9963fd6a2",
+    measurementId: "G-NTE1SBFX7R"
 };
 
 // Firebase初期化
@@ -23,83 +30,16 @@ const db = getDatabase(app);
 const dbRef = ref(db, "time");
 
 // メッセージをタイムスタンプ順に取得するクエリ
-// 最新10件を取得するクエリ
-const q = query(dbRef, orderByChild("timestamp"));
+// 最新のfinishTimeを持つデータを取得するためのクエリ
+const queryRef = query(dbRef, orderByChild('finish_time'));
+
 
 // ターゲットマシン
 const targetMachine = "B";
 
 console.log("Firebase initialized successfully!");
 
-// データ登録（クリックイベント）
-$("#set").on("click", function () {
-    const onOff = {
-        machine:$("#targetMachine").val(),
-        start_time: $("#span1").val(),
-        finish_time: $("#finish_time").val(),
-    };
-    // Firebase Realtime Databaseに新しいデータを追加
-    const newPostRef = push(dbRef);
-    set(newPostRef, onOff);
-    // 入力欄をリセット
-    $("#targetMachine").val("");
-    $("#time").val("");
-    $("#finish_time").val("");
-    swal.fire({
-    title: "登録しました！",
-    text: "利用情報を登録しました",
-    icon: "success",
-    });
-});
 
-onChildAdded(dbRef, function (snapshot) {
-    const data = snapshot.val();  // 取得したデータ
-
-    // 現在時刻を取得
-    const now = new Date().getTime();
-
-    // start_timeとfinish_timeをUNIXタイムスタンプに変換
-    const startTime = new Date(data.start_time).getTime();
-    const finishTime = new Date(data.finish_time).getTime();
-
-    // 現在時刻が start_time と finish_time の間にある場合、利用中と表示
-    if (now >= startTime && now <= finishTime) {
-        $("#output2").append(`
-            <div class="in-use">
-                <p>【${data.machine}】は現在利用中です。</p>
-                <p>開始時間: ${data.start_time}</p>
-                <p>終了予定時間: ${data.finish_time}</p>
-            </div>
-        `);
-    } else {
-        $("#output2").append(`
-            <div class="available">
-                <p>【${data.machine}】は現在空いています。</p>
-            </div>
-        `);
-    }
-});
-
-    
-    // 指定のマシンに一致するデータのみを表示
-//     if (msg.machine === targetMachine) {
-//         const html = `
-//             <div class="message">
-//                 <p class="uname">${msg.uname} さん</p>
-//                 <div class="text_box"> 
-//                     <p class="text">${msg.machine}についてです。${msg.text}</p>
-//                 </div>
-//                 <p class="nowDate">${msg.nowDate}</p> 
-//             </div>
-//         `;
-//         // 最新メッセージを先頭に表示
-//         $("#output").prepend(html);
-//         // メッセージが10件を超えた場合、古いメッセージを削除
-//         if ($("#output .message").length > 10) {
-//             $("#output .message").last().remove();
-//         }
-//     }
-// });
 
 // ここから今までのデータと一緒
 // 現在時刻を表示する関数
@@ -206,3 +146,62 @@ function endAlarm() {
 
 // 現在時刻の更新を開始
 setInterval(updateTime, 1000);
+
+
+// データ登録（クリックイベント）
+$("#set").on("click", function () {
+    const onOff = {
+        machine: $("#targetMachine").val(),
+        start_time: new Date($("#span1").val()).getTime(), // UNIX時間に変換
+        finish_time: new Date($("#finish_time").val()).getTime(), // UNIX時間に変換
+    };
+
+    console.log(machine, start_time, finish_time);
+    // Firebase Realtime Databaseに新しいデータを追加
+    const newPostRef = push(dbRef);
+    set(newPostRef, onOff);
+    // 入力欄をリセット
+    $("#targetMachine").val("");
+    $("#time").val("");
+    $("#finish_time").val("");
+    swal.fire({
+    title: "登録しました！",
+    text: "利用情報を登録しました",
+    icon: "success",
+    });
+});
+
+// AはA,BはBのみに表示させるようにする
+
+
+onChildAdded(queryRef, function (snapshot) {
+    const data = snapshot.val();  // 取得したデータ
+    // 現在時刻を取得
+    const now = new Date().getTime();
+
+    // start_timeとfinish_timeをUNIXタイムスタンプに変換
+    const startTime = new Date(data.start_time).getTime();
+    const finishTime = new Date(data.finish_time).getTime();
+
+    // 現在時刻が start_time と finish_time の間にある場合、利用中と表示
+    if (now >= startTime && now <= finishTime) {
+        $("#output2").append(`
+            <div class="in-use">
+                <p>【${machine}】は現在利用中です。</p>
+                <p>開始時間: ${start_time}</p>
+                <p>終了予定時間: ${finish_time}</p>
+            </div>
+        `);
+    } else {
+        $("#output2").append(`
+            <div class="available">
+                <p>【${data.machine}】は現在空いています。</p>
+            </div>
+        `);
+    }
+    // 表示件数を制限する場合は以下を追加
+    if ($("#output2 .in-use").length > 2) {
+        $("#output2 .in-use").first().remove();
+    };
+});
+
