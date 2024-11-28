@@ -26,14 +26,14 @@ const dbRef = ref(db, "chat");
 const q = query(dbRef, orderByChild("timestamp"));
 
 // ターゲットマシン
-const targetMachine = "B";
+const targetMachine = "A";
 
 console.log("Firebase initialized successfully!");
 
 // データ登録（クリックイベント）
 $("#send").on("click", function () {
     const msg = {
-        machine: "B",
+        machine: "A",
         uname: $("#uname").val(),
         text: $("#text").val(),
         timestamp: new Date().getTime(), // タイムスタンプ
@@ -43,9 +43,9 @@ $("#send").on("click", function () {
     // Firebase Realtime Databaseに新しいデータを追加
     const newPostRef = push(dbRef);
     set(newPostRef, msg);
+
     // 音声追加
     $("#play-button").get(0).play();
-
     // 入力欄をリセット
     $("#uname").val("");
     $("#text").val("");

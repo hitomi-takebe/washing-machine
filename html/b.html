@@ -7,30 +7,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firebase Version 9 RealtimeDB Sample</title>
     <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/a.css">
 </head>
 
+<header>
+    <div class="header_title">
+        <h1>洗濯機Bについてのチャット</h1>
+    </div>
+</header>
+
 <body>
-    <h1>洗濯機<span>B</span>の利用状況</h1>
+    <audio src="/audio/pikooon.mp3" id="play-button"></audio>
     <!-- コンテンツ表示画面 -->
-    <div>
+    <div class="title">
+        <h1>コメント入力</h1>
+    </div>
+    <div class="form">
         <div>
-            <input type="text" id="uname" placeholder="名前を入力してください">
+            <p>名前</p><input type="text" id="uname" placeholder="名前を入力してください">
         </div>
         <div>
-            <textarea id="text" placeholder="文章を入力してください"></textarea>
+            <p>文章</p><textarea id="text" placeholder="文章を入力してください"></textarea>
         </div>
         <button id="send">送信</button>
-        <div class="comment">
-            <p>直近のコメント</p>
-            <div id="output"></div>
+    </div>
+    <div class="comment">
+        <div class="title">
+            <h1>直近のコメント<span class="title_hosoku">※最新10件まで</span></h1>
         </div>
+        <div id="output"></div>
+    </div>
+    <div class="home">
+        <a href="/index.html">home</a>
     </div>
 
     <!-- jQueryライブラリ -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Firebaseアプリ用のJSファイル -->
     <script type="module" src="/js/b.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </body>
 
 </html>

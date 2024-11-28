@@ -1,22 +1,11 @@
-@charset "utf-8";
-@import url('https://fonts.googleapis.com/css?family=Sacramento');
 
-body {
-    text-align: center;
-    margin: 0 auto;
-    width: 100%;
-    background: #EEEEEE;
-    line-height: 1.3;
-    width: 100%;
-}
-
-.comment{
+.comment {
     display: flex;
     flex-flow: column;
     text-align: center;
 }
 
-.message{
+.message {
     width: 50%;
     display: inline-block;
     margin-right: 2em;
@@ -50,12 +39,60 @@ body {
     transform-origin: left;
 }
 
-.uname{
+.uname {
     margin: 0;
     text-align: left;
 }
-.nowData{
-    margin-top: 0;
+
+.nowDate {
+    margin: 0;
     text-align: right;
 }
 
+.form p{
+    margin-bottom: 0.3em;
+}
+
+.form p,
+input,
+textarea {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 入力欄のスタイル */
+input[type="text"],
+textarea {
+    width: calc(80% - 8rem);
+    /* ラベルの幅を考慮 */
+    padding: 0.5rem;
+    margin-left: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+/* フォーカス時のスタイル */
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: #00ADB5;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* プレースホルダーのスタイル */
+::placeholder {
+    color: #999;
+}
+
+a {
+    display: inline-block;
+    text-align: left;
+    transition: color 0.3s;
+    color: #393E46;
+}
+
+a:hover {
+    color: #00ADB5;
+}
