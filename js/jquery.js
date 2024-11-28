@@ -13,14 +13,7 @@ import {
 
 // Firebaseの設定情報（Firebaseプロジェクトから取得）
 const firebaseConfig = {
-  apiKey: "AIzaSyAzgo4GGX8YmFoFDoFO1oa8rSEltSJWs0I",
-  authDomain: "dev28-27322.firebaseapp.com",
-  databaseURL: "https://dev28-27322-default-rtdb.firebaseio.com",
-  projectId: "dev28-27322",
-  storageBucket: "dev28-27322.firebasestorage.app",
-  messagingSenderId: "47494104071",
-  appId: "1:47494104071:web:68f6637dcbc396503fd6a2",
-  measurementId: "G-XKN91WVJTR"
+
 };
 
 // Firebase初期化
@@ -38,13 +31,10 @@ const targetMachine = "B";
 
 console.log("Firebase initialized successfully!");
 
-
-
-// ここから今までのデータと一緒
 // 現在時刻を表示する関数
 function formatDate(date){
     const year = date.getFullYear();
-    const month = date.getMonth();
+    const month = date.getMonth()+1;
     const day = date.getDate();
     const hours = date.getHours();
     const minutes = date.getMinutes();
@@ -57,7 +47,7 @@ function formatDate(date){
 function updateTime() {
     const now = new Date();
     $("#time").text(formatDate(now).formattedTime);
-    return { now: now }
+    return { now: now };
 }
 
 // グローバル変数として定義
@@ -77,7 +67,7 @@ function finishTime() {
     $("#span2").text(hours2);
     $("#span3").text(minutes2);
 
-    console.log("準備・移動の時間をdiffに取得");
+    console.log("洗濯時間をdiffに取得");
 
     // 準備・移動時間の分数をミリ秒単位で計算
     let diff = hours2 * (60 * 60 * 1000) + minutes2 * (60 * 1000);
@@ -93,72 +83,72 @@ function finishTime() {
     // diffの時間を追加
     PlusTime = new Date(MtgTime_new.getTime() + diff);
     $("#finish_time").text(formatDate(PlusTime).formattedTime); // 結果を表示
-
-    return PlusTime;
+    return {PlusTime: PlusTime, MtgTime: MtgTime}
 }
 
 // ボタンのクリックイベント
 $("#button1").click(function () {
     const result = finishTime();
     if (result) {
-        console.log("出発時間が設定されました:", result.toLocaleTimeString());
+        console.log("出発時間が設定されました");
     }
+    // startAlarmCheck();  // アラーム開始
 });
 
 // タイマーIDを保存
 let alarmTimer = null;
 
-// 出る時間になったことをお知らせする
-function startAlarmCheck() {
-    if (!PlusTime) {
-        console.error("出発時間が設定されていません。");
-        return;
-    }
+// // 出る時間になったことをお知らせする
+// function startAlarmCheck() {
+//     if (!PlusTime) {
+//         console.error("出発時間が設定されていません。");
+//         return;
+//     }
 
-    // アラームチェックを1秒ごとに行う
-    alarmTimer = setInterval(function () {
-        const current = updateTime(); // 現在時刻を取得
-        console.log(current);
+//     // アラームチェックを1秒ごとに行う
+//     alarmTimer = setInterval(function () {
+//         const current = updateTime(); // 現在時刻を取得
+//         console.log(current);
 
-        // 出発時間と現在時刻が一致するか確認
-        if (
-            current.hour === PlusTime.getHours() &&
-            current.minute === PlusTime.getMinutes()
-        ) {
-            $("#alarm_text").text("準備を開始する時間になりました！");
-            console.log(`現在の時刻が${PlusTime.getHours()}時${PlusTime.getMinutes()}分になりました。`);
+//         // 出発時間と現在時刻が一致するか確認
+//         if (
+//             current.hour === PlusTime.getHours() &&
+//             current.minute === PlusTime.getMinutes()
+//         ) {
+//             $("#alarm_text").text("準備を開始する時間になりました！");
+//             console.log(`現在の時刻が${PlusTime.getHours()}時${PlusTime.getMinutes()}分になりました。`);
 
-            // 一度だけアラームを発動させるため、setIntervalをクリア
-            clearInterval(alarmTimer);
+//             // 一度だけアラームを発動させるため、setIntervalをクリア
+//             clearInterval(alarmTimer);
 
-            // 1分後にアラームメッセージを消す
-            setTimeout(endAlarm, 60000);
-        }
-    }, 1000);
-}
+//             // 1分後にアラームメッセージを消す
+//             setTimeout(endAlarm, 60000);
+//         }
+//     }, 1000);
+// }
 
-// アラームメッセージを非表示にする関数
-function endAlarm() {
-    console.log("1分経ったので表示が消えます。");
-    $("#alarm_text").text("");
-}
+// // アラームメッセージを非表示にする関数
+// function endAlarm() {
+//     console.log("1分経ったので表示が消えます。");
+//     $("#alarm_text").text("");
+// }
+
 
 // 現在時刻の更新を開始
 setInterval(updateTime, 1000);
-
 
 // データ登録（クリックイベント）
 $("#set").on("click", function () {
     const onOff = {
         machine: $("#targetMachine").val(),
-        start_time: new Date($("#span1").val()).getTime(), // UNIX時間に変換
-        finish_time: new Date($("#finish_time").val()).getTime(), // UNIX時間に変換
+        start_time: finishTime().MtgTime.getTime(),  // UNIX時間に変換
+        finish_time: finishTime().PlusTime.getTime(), // UNIX時間に変換
     };
 
-    console.log(machine, start_time, finish_time);
+    console.log(onOff,"onOffの内容の確かめ");
     // Firebase Realtime Databaseに新しいデータを追加
-    const newPostRef = push(dbRef);
-    set(newPostRef, onOff);
+    const newPostRef = push(dbRef);//ユニークKEYを生成
+    set(newPostRef, onOff);//"onOff"にユニークKEYをつけてオブジェクトデータを登録
     // 入力欄をリセット
     $("#targetMachine").val("");
     $("#time").val("");
@@ -174,27 +164,28 @@ $("#set").on("click", function () {
 
 
 onChildAdded(queryRef, function (snapshot) {
-    const data = snapshot.val();  // 取得したデータ
+    const onOff = snapshot.val();  // 取得したデータ
+    const key = snapshot.key; 
     // 現在時刻を取得
     const now = new Date().getTime();
 
     // start_timeとfinish_timeをUNIXタイムスタンプに変換
-    const startTime = new Date(data.start_time).getTime();
-    const finishTime = new Date(data.finish_time).getTime();
-
+    const startTime = new Date(onOff.start_time).getTime();
+    const finishTime = new Date(onOff.finish_time).getTime();
     // 現在時刻が start_time と finish_time の間にある場合、利用中と表示
+
     if (now >= startTime && now <= finishTime) {
         $("#output2").append(`
             <div class="in-use">
-                <p>【${machine}】は現在利用中です。</p>
-                <p>開始時間: ${start_time}</p>
-                <p>終了予定時間: ${finish_time}</p>
+                <p>【${onOff.machine}】は現在利用中です。</p>
+                <p>開始時間: ${onOff.start_time}</p>
+                <p>終了予定時間: ${onOff.finish_time}</p>
             </div>
         `);
     } else {
         $("#output2").append(`
             <div class="available">
-                <p>【${data.machine}】は現在空いています。</p>
+                <p>【${onOff.machine}】は現在空いています。</p>
             </div>
         `);
     }
